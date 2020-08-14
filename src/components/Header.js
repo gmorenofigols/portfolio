@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ButtonAppBar = () => {
+const Header = () => {
   const classes = useStyles();
 
   return (
@@ -30,13 +30,13 @@ const ButtonAppBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            MyPortfolio
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">About me</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-export default ButtonAppBar;
+export default Header;
