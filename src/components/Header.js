@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,16 +17,45 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  headerColour: {
+    backgroundColor: '#2196f3',
+  },
+  headerTransparent: {
+    backgroundColor: 'transparent',
+  },
 }));
 
 const Header = () => {
   const classes = useStyles();
+  const [headerBackground, setHeaderBackground] = useState('headerColour');
+  const [thresholdScroll, setThresholdScroll] = useState(0);
+
+  const navRef = React.useRef();
+  navRef.current = headerBackground;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (thresholdScroll < currentScrollY) {
+        setThresholdScroll(currentScrollY);
+        setHeaderBackground('headerTransparent');
+      }else{
+        setThresholdScroll(currentScrollY);
+        setHeaderBackground('headerColour');
+      }
+    }
+    document.addEventListener('scroll', handleScroll);
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    }
+  }, [thresholdScroll]);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div className ={classes.root}>
+      <AppBar position="fixed" className={classes[navRef.current]}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
